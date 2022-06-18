@@ -1,9 +1,10 @@
 <template>
-  <div class='list'>
+  <div class="list">
     <ProductItem
-      v-for='product in products'
-      :key='product.id'
-      :product='product'
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+      @remove="$emit('remove', product.id)"
     />
   </div>
 </template>
@@ -17,13 +18,13 @@ export default {
   props: {
     products: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .list {
   display: grid;
   grid-template-columns: 1fr;
@@ -31,6 +32,7 @@ export default {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 </style>

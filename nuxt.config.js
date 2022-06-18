@@ -16,7 +16,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Source+Sans+Pro:wght@400;600&display=swap' }
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Source+Sans+Pro:wght@400;600&display=swap',
+      },
     ],
   },
 
@@ -24,7 +27,9 @@ export default {
   css: ['~/assets/styles/normalize.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    {src: '~/plugins/vuelidate.js', ssr: true}
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -36,7 +41,11 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: [
+    '@nuxtjs/axios',
+  ],
+
+  axios: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

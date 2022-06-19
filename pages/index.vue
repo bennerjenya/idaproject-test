@@ -3,7 +3,7 @@
     <div class="mainPage__container">
       <header class='mainPage__header'>
         <h1 class="mainPage__title">Добавление товара</h1>
-        <select v-model='selected' @change='sortProducts'>
+        <select v-model='selected'>
           <option value="">По умолчанию</option>
           <option>По цене min</option>
           <option>По цене max</option>
@@ -12,55 +12,61 @@
       </header>
       <div class="mainPage__block">
         <AddProductForm @createProductCard="pushProductCard" />
-        <ProductsList :products="products" @remove="removeProduct" />
+        <ProductsList :products="products" @remove="removeProductFromList" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ProductsList from '../components/ProductsList'
-import AddProductForm from '../components/AddProductForm'
+import {mapGetters, mapActions} from 'vuex';
+import ProductsList from '../components/ProductsList';
+import AddProductForm from '../components/AddProductForm';
 export default {
   name: 'IndexPage',
   components: { AddProductForm, ProductsList },
   data() {
     return {
       selected: '',
-      products: [],
+    }
+  },
+  computed: {
+    ...mapGetters(['getProducts', 'getProductsByMinPrice', 'getProductsByMaxPrice', 'getProductsByName']),
+    products() {
+      let products;
+
+      this.selected === 'По наименованию' ? products = this.getProductsByName
+        : (this.selected === 'По цене min' ? products = this.getProductsByMinPrice
+          : (this.selected === 'По цене max' ? products = this.getProductsByMaxPrice
+            : products = this.getProducts));
+
+      return products;
     }
   },
   mounted() {
     if(!localStorage.getItem('products')) {
-      this.setProducts();
+      this.setProductsToStore();
     }
-    this.products = this.$store.getters.getProducts;
   },
   methods: {
-    sortProducts() {
-      switch (this.selected) {
-        case 'По наименованию':
-          return this.products.sort((a, b) => (b.name > a.name ? 1 : -1));
-        case 'По цене min':
-          return this.products.sort((a, b) => (a.price - b.price));
-        case 'По цене max':
-          return this.products.sort((a, b) => (a.price + b.price));
-        default:
-          return this.products;
-      }
-    },
+    ...mapActions([
+      'addProduct',
+      'removeProduct',
+      'saveProducts',
+      'setProducts'
+    ]),
     pushProductCard(newProduct) {
-      this.$store.dispatch('addProduct', newProduct);
-      this.$store.commit('SAVE_PRODUCTS', this.products);
+      this.addProduct(newProduct);
+      this.saveProducts(this.getProducts);
     },
-    removeProduct(id) {
-      this.$store.dispatch('removeProduct', id);
-      this.$store.commit('SAVE_PRODUCTS', this.products);
+    removeProductFromList(id) {
+      this.removeProduct(id);
+      this.saveProducts(this.getProducts);
     },
-    async setProducts() {
+    async setProductsToStore() {
       const products = await this.$axios.$get('/mock/products.json');
-      this.$store.commit('SET_PRODUCTS', products);
-      this.$store.commit('SAVE_PRODUCTS', products);
+      this.saveProducts(products);
+      this.setProducts(products);
     },
   },
 }

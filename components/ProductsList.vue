@@ -28,6 +28,7 @@ export default {
 .list {
   display: grid;
   grid-template-columns: 1fr;
+  padding: 8px 0 0;
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;

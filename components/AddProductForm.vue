@@ -52,6 +52,7 @@
         v-model.number="product.price"
         class="inputBox__input"
         :class="{'inputBox__input--invalid': $v.product.price.$error}"
+        type='number'
         placeholder="Введите цену"
         required
         @input='$v.product.price.$touch()'

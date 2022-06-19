@@ -29,15 +29,19 @@ export const getters = {
     return state.products;
   },
   getProductsByName: state => {
-    return state.products.sort(function (a, b) {
-      if (a.name > b.name) {
-        return 1;
-      }
-      if (a.name < b.name) {
-        return -1;
-      }
+    return [...state.products].sort((a, b) => {
+      const nameA = a.name.toLowerCase();
+      const nameB = b.name.toLowerCase();
+      if(nameA > nameB) {return 1;}
+      if(nameA < nameB) {return -1;}
       return 0;
     });
+  },
+  getProductsByMinPrice: state => {
+    return [...state.products].sort((a, b) => a.price - b.price);
+  },
+  getProductsByMaxPrice: state => {
+    return [...state.products].sort((a, b) => b.price - a.price);
   },
 }
 
@@ -47,6 +51,12 @@ export const actions = {
   },
   removeProduct({ commit }, id) {
     commit('REMOVE_PRODUCT', id);
+  },
+  saveProducts({ commit }, products) {
+    commit('SAVE_PRODUCTS', products);
+  },
+  setProducts({ commit }, products) {
+    commit('SET_PRODUCTS', products);
   },
 }
 

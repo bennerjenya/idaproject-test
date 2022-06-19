@@ -28,6 +28,17 @@ export const getters = {
   getProducts: state => {
     return state.products;
   },
+  getProductsByName: state => {
+    return state.products.sort(function (a, b) {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    });
+  },
 }
 
 export const actions = {

@@ -1,12 +1,12 @@
 <template>
-  <div class="list">
+  <transition-group tag='div' name='fade' class="list">
     <ProductItem
       v-for="product in products"
       :key="product.id"
       :product="product"
       @remove="$emit('remove', product.id)"
     />
-  </div>
+  </transition-group>
 </template>
 
 <script>
@@ -34,5 +34,11 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
-  <transition name="product">
-    <article class="product">
+    <article :key='product.id' class="product">
       <button class="product__delete" @click="$emit('remove', product.id)">
         <svg
           width="40"
@@ -86,7 +85,6 @@
         <div class="product__price">{{ convertPrice }}</div>
       </div>
     </article>
-  </transition>
 </template>
 
 <script>
@@ -204,21 +202,6 @@ export default {
     font-size: 24px;
     line-height: 30px;
     color: #3f3f3f;
-  }
-
-  &-enter-active,
-  &-leave-active {
-    transition: opacity 350ms;
-  }
-
-  &-enter,
-  &-leave-to {
-    opacity: 0;
-  }
-
-  &-leave,
-  &-enter-to {
-    opacity: 1;
   }
 }
 </style>

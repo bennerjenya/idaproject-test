@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { required } from "vuelidate/lib/validators";
 
 export default {
@@ -82,12 +83,13 @@ export default {
         link: '',
         price: '',
       },
-    }
+    };
   },
   methods: {
+    ...mapActions(['addProduct', 'saveProducts']),
     createProductCard() {
       this.product.id = Date.now();
-      this.$emit('createProductCard', this.product);
+      this.addProduct(this.product);
       this.product = {
         name: '',
         description: '',
@@ -102,7 +104,7 @@ export default {
       name: { required },
       link: { required },
       price: { required },
-    }
+    },
   }
 }
 </script>
@@ -207,6 +209,7 @@ export default {
   display: grid;
   place-content: center;
   border: 0;
+  cursor: pointer;
   &:disabled {
     background: #eeeeee;
     color: #b4b4b4;

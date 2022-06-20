@@ -19,8 +19,8 @@ export const mutations = {
   REMOVE_PRODUCT(state, id) {
     state.products = state.products.filter(p => p.id !== id);
   },
-  SAVE_PRODUCTS(state, products) {
-    const parsedProducts = JSON.stringify(products);
+  SAVE_PRODUCTS(state) {
+    const parsedProducts = JSON.stringify(state.products);
     localStorage.setItem('products', parsedProducts);
   },
 }
@@ -46,17 +46,20 @@ export const getters = {
 }
 
 export const actions = {
-  addProduct({ commit }, product) {
+  addProduct({ commit, state }, product) {
     commit('ADD_PRODUCT', product);
+    commit('SAVE_PRODUCTS', state.products);
   },
-  removeProduct({ commit }, id) {
+  removeProduct({ commit, state }, id) {
     commit('REMOVE_PRODUCT', id);
+    commit('SAVE_PRODUCTS', state.products);
   },
-  saveProducts({ commit }, products) {
-    commit('SAVE_PRODUCTS', products);
+  saveProducts({ commit, state }) {
+    commit('SAVE_PRODUCTS', state.products);
   },
-  setProducts({ commit }, products) {
+  setProducts({ commit, state }, products) {
     commit('SET_PRODUCTS', products);
+    commit('SAVE_PRODUCTS', state.products);
   },
 }
 

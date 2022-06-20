@@ -1,6 +1,6 @@
 <template>
     <article :key='product.id' class="product">
-      <button class="product__delete" @click="$emit('remove', product.id)">
+      <button class="product__delete" @click="removeProductFromList(product.id)">
         <svg
           width="40"
           height="40"
@@ -82,12 +82,17 @@
       <div class="product__content">
         <h3 class="product__name">{{ product.name }}</h3>
         <div class="product__body">{{ product.description }}</div>
-        <div class="product__price">{{ convertPrice }}</div>
+        <div class="product__price">
+          <span>{{ convertPrice }}</span>
+          <span>руб.</span>
+        </div>
       </div>
     </article>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'ProductItem',
   props: {
@@ -120,7 +125,13 @@ export default {
     convertPrice() {
       return `${this.product.price
         .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} руб.`;
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} `;
+    },
+  },
+  methods: {
+    ...mapActions(['removeProduct', 'saveProducts']),
+    removeProductFromList(id) {
+      this.removeProduct(id);
     },
   },
 }
@@ -133,7 +144,9 @@ export default {
   border-radius: 4px;
   position: relative;
   cursor: pointer;
-
+  max-height: 423px;
+  min-width: 100%;
+  max-width: 100%;
   &:hover {
     & .product__delete {
       opacity: 1;
@@ -157,7 +170,7 @@ export default {
 
   &__image {
     width: 100%;
-    height: 120px;
+    height: 200px;
 
     & img {
       width: 100%;
@@ -202,6 +215,13 @@ export default {
     font-size: 24px;
     line-height: 30px;
     color: #3f3f3f;
+    display: flex;
+    gap: 8px;
+    & span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }
 </style>

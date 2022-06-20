@@ -4,7 +4,6 @@
       v-for="product in products"
       :key="product.id"
       :product="product"
-      @remove="$emit('remove', product.id)"
     />
   </transition-group>
 </template>
@@ -28,7 +27,7 @@ export default {
 .list {
   display: grid;
   grid-template-columns: 1fr;
-  padding: 8px 0 0;
+  padding: 8px 16px 16px 8px;
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;

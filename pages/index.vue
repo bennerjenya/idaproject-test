@@ -3,7 +3,7 @@
     <div class="mainPage__container">
       <header class='mainPage__header'>
         <h1 class="mainPage__title">Добавление товара</h1>
-        <select v-model='selected'>
+        <select v-model='selected' class='mainPage__select'>
           <option value="">По умолчанию</option>
           <option>По цене min</option>
           <option>По цене max</option>
@@ -11,8 +11,8 @@
         </select>
       </header>
       <div class="mainPage__block">
-        <AddProductForm @createProductCard="pushProductCard" />
-        <ProductsList :products="products" @remove="removeProductFromList" />
+        <AddProductForm />
+        <ProductsList :products="products" />
       </div>
     </div>
   </div>
@@ -49,23 +49,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'addProduct',
-      'removeProduct',
-      'saveProducts',
-      'setProducts'
-    ]),
-    pushProductCard(newProduct) {
-      this.addProduct(newProduct);
-      this.saveProducts(this.getProducts);
-    },
-    removeProductFromList(id) {
-      this.removeProduct(id);
-      this.saveProducts(this.getProducts);
-    },
+    ...mapActions(['setProducts',]),
     async setProductsToStore() {
       const products = await this.$axios.$get('/mock/products.json');
-      this.saveProducts(products);
       this.setProducts(products);
     },
   },
@@ -81,9 +67,12 @@ export default {
   font-family: 'Sourse Sans Pro', sans-serif;
 
   &__container {
-    padding: 15px;
+    padding: 16px 16px 16px 32px;
+    max-width: 1440px;
+    margin: 0 auto;
   }
   &__header {
+    padding-right: 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -99,8 +88,21 @@ export default {
   &__block {
     @media (min-width: 1024px) {
       display: flex;
-      gap: 16px;
+      gap: 8px;
     }
+  }
+
+  &__select {
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #B4B4B4;
+    background: #FFFEFB;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    border: 0;
+    padding: 10px 16px;
   }
 }
 </style>

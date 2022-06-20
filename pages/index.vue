@@ -3,7 +3,11 @@
     <div class="mainPage__container">
       <header class='mainPage__header'>
         <h1 class="mainPage__title">Добавление товара</h1>
-        <select v-model='selected' class='mainPage__select'>
+        <select
+          v-model='selected'
+          class='mainPage__select'
+          @change='setNewSortingMethod'
+        >
           <option value="">По умолчанию</option>
           <option>По цене min</option>
           <option>По цене max</option>
@@ -12,14 +16,14 @@
       </header>
       <div class="mainPage__block">
         <AddProductForm />
-        <ProductsList :products="products" />
+        <ProductsList />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import { mapActions } from 'vuex';
 import ProductsList from '../components/ProductsList';
 import AddProductForm from '../components/AddProductForm';
 export default {
@@ -28,31 +32,17 @@ export default {
   data() {
     return {
       selected: '',
-    }
-  },
-  computed: {
-    ...mapGetters(['getProducts', 'getProductsByMinPrice', 'getProductsByMaxPrice', 'getProductsByName']),
-    products() {
-      let products;
-
-      this.selected === 'По наименованию' ? products = this.getProductsByName
-        : (this.selected === 'По цене min' ? products = this.getProductsByMinPrice
-          : (this.selected === 'По цене max' ? products = this.getProductsByMaxPrice
-            : products = this.getProducts));
-
-      return products;
-    }
+    };
   },
   mounted() {
     if(!localStorage.getItem('products')) {
-      this.setProductsToStore();
+      this.fetchProducts();
     }
   },
   methods: {
-    ...mapActions(['setProducts',]),
-    async setProductsToStore() {
-      const products = await this.$axios.$get('/mock/products.json');
-      this.setProducts(products);
+    ...mapActions(['fetchProducts', 'setSortingMethod']),
+    setNewSortingMethod() {
+      this.setSortingMethod(this.selected);
     },
   },
 }

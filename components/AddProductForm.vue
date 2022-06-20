@@ -86,7 +86,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['addProduct', 'saveProducts']),
+    ...mapActions(['addProduct']),
     createProductCard() {
       this.product.id = Date.now();
       this.addProduct(this.product);
@@ -224,6 +224,14 @@ export default {
 
 textarea {
   resize: none;
+}
+
+label {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: -0.02em;
+  color: #49485E;
 }
 
 textarea,

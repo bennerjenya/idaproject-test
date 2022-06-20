@@ -1,6 +1,7 @@
 export const state = () => ({
   products: JSON.parse(localStorage.getItem('products')) || [],
-})
+  sortingMethod: '',
+});
 export const mutations = {
   SET_PRODUCTS(state, products) {
     state.products = products;
@@ -23,6 +24,9 @@ export const mutations = {
     const parsedProducts = JSON.stringify(state.products);
     localStorage.setItem('products', parsedProducts);
   },
+  SET_SORTING(state, payload) {
+    state.sortingMethod = payload;
+  },
 }
 export const getters = {
   getProducts: state => {
@@ -43,23 +47,30 @@ export const getters = {
   getProductsByMaxPrice: state => {
     return [...state.products].sort((a, b) => b.price - a.price);
   },
+  getSortingMethod: state => {
+    return state.sortingMethod
+  },
 }
 
 export const actions = {
-  addProduct({ commit, state }, product) {
-    commit('ADD_PRODUCT', product);
-    commit('SAVE_PRODUCTS', state.products);
-  },
-  removeProduct({ commit, state }, id) {
-    commit('REMOVE_PRODUCT', id);
-    commit('SAVE_PRODUCTS', state.products);
-  },
-  saveProducts({ commit, state }) {
-    commit('SAVE_PRODUCTS', state.products);
-  },
-  setProducts({ commit, state }, products) {
+  async fetchProducts({ commit }) {
+    const products = await this.$axios.$get('/mock/products.json');
     commit('SET_PRODUCTS', products);
-    commit('SAVE_PRODUCTS', state.products);
+    commit('SAVE_PRODUCTS');
+  },
+  addProduct({ commit }, product) {
+    commit('ADD_PRODUCT', product);
+    commit('SAVE_PRODUCTS');
+  },
+  removeProduct({ commit }, id) {
+    commit('REMOVE_PRODUCT', id);
+    commit('SAVE_PRODUCTS');
+  },
+  saveProducts({ commit }) {
+    commit('SAVE_PRODUCTS');
+  },
+  setSortingMethod({ commit }, method) {
+    commit('SET_SORTING', method);
   },
 }
 

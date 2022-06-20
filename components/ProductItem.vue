@@ -11,7 +11,7 @@
           <g filter="url(#filter0_d_4_347)">
             <rect x="4" y="2" width="32" height="32" rx="10" fill="#FF8484" />
           </g>
-          <g clip-path="url(#clip0_4_347)">
+          <g>
             <path
               d="M22.207 15.7969C22 15.7969 21.8322 15.9646 21.8322 16.1716V23.2535C21.8322 23.4604 22 23.6283 22.207 23.6283C22.4139 23.6283 22.5817 23.4604 22.5817 23.2535V16.1716C22.5817 15.9646 22.4139 15.7969 22.207 15.7969Z"
               fill="white"
@@ -129,7 +129,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['removeProduct', 'saveProducts']),
+    ...mapActions(['removeProduct']),
     removeProductFromList(id) {
       this.removeProduct(id);
     },
@@ -190,6 +190,9 @@ export default {
     font-size: 20px;
     line-height: 25px;
     color: #3f3f3f;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__body {

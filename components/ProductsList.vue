@@ -9,15 +9,29 @@
 </template>
 
 <script>
-import ProductItem from './ProductItem'
+import { mapGetters } from 'vuex';
+import ProductItem from './ProductItem';
 
 export default {
   name: 'ProductsList',
   components: { ProductItem },
-  props: {
-    products: {
-      type: Array,
-      required: true,
+  computed: {
+    ...mapGetters([
+      'getProducts',
+      'getProductsByMinPrice',
+      'getProductsByMaxPrice',
+      'getProductsByName',
+      'getSortingMethod'
+    ]),
+    products() {
+      let products;
+
+      this.getSortingMethod === 'По наименованию' ? products = this.getProductsByName
+        : (this.getSortingMethod === 'По цене min' ? products = this.getProductsByMinPrice
+          : (this.getSortingMethod === 'По цене max' ? products = this.getProductsByMaxPrice
+            : products = this.getProducts));
+
+      return products;
     },
   },
 }

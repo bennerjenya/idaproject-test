@@ -1,5 +1,5 @@
 <template>
-  <transition-group tag='div' name='fade' class="list">
+  <transition-group ref='productsList' tag='div' name='fade' class="list">
     <ProductItem
       v-for="product in products"
       :key="product.id"

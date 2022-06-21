@@ -90,6 +90,7 @@ export default {
     createProductCard() {
       this.product.id = Date.now();
       this.addProduct(this.product);
+      document.querySelector('.list').lastElementChild.scrollIntoView({behavior: 'smooth'}); // after creating new product, scroll to the last list element
       this.product = {
         name: '',
         description: '',

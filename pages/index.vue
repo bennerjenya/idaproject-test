@@ -93,6 +93,9 @@ export default {
     border-radius: 4px;
     border: 0;
     padding: 10px 16px;
+    appearance: none;
+    overflow: hidden;
+    background: url('../assets/images/select-arrow-down.svg') no-repeat calc(100% - 16px) center;
   }
 }
 </style>

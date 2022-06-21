@@ -1,5 +1,5 @@
 <template>
-    <article :key='product.id' class="product">
+    <article :id='product.id' :key='product.id' class="product">
       <button class="product__delete" @click="removeProductFromList(product.id)">
         <svg
           width="40"
@@ -83,8 +83,8 @@
         <h3 class="product__name">{{ product.name }}</h3>
         <div class="product__body">{{ product.description }}</div>
         <div class="product__price">
-          <span>{{ convertPrice }}</span>
-          <span>руб.</span>
+          <span class="product__priceNumber">{{ convertPrice }}</span>
+          <span class="products__priceCurrency">руб.</span>
         </div>
       </div>
     </article>
@@ -220,11 +220,12 @@ export default {
     color: #3f3f3f;
     display: flex;
     gap: 8px;
-    & span:first-child {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  }
+
+  &__priceNumber {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 </style>

@@ -1,3 +1,4 @@
+import localProducts from '@/static/mock/products.json';
 export const state = () => ({
   products: JSON.parse(localStorage.getItem('products')) || [],
   sortingMethod: '',
@@ -53,9 +54,9 @@ export const getters = {
 }
 
 export const actions = {
-  async fetchProducts({ commit }) {
-    const products = await this.$axios.$get('/mock/products.json');
-    commit('SET_PRODUCTS', products);
+  fetchProducts({ commit }) {
+    // const products = await this.$axios.$get('/mock/products.json');
+    commit('SET_PRODUCTS', localProducts);
     commit('SAVE_PRODUCTS');
   },
   addProduct({ commit }, product) {

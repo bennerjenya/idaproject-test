@@ -1,4 +1,8 @@
 export default {
+  target: "static",
+  router: {
+    base: '/idaproject-test/'
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
